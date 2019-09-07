@@ -1,13 +1,21 @@
 import { Router } from 'express';
 
 import UserController from './app/controllers/UserController';
+import SessionController from './app/controllers/SessionController';
 
-const routes = new Router();
+import requireAuth from './app/middlewares/auth';
 
-routes.get('/', (req, res) => {
+const router = new Router();
+
+router.get('/', (req, res) => {
   return res.json({ message: 'Welcome to Meetapp' });
 });
 
-routes.post('/users', UserController.create);
+router.post('/sessions', SessionController.create);
+router.post('/users', UserController.create);
 
-export default routes;
+router.use(requireAuth);
+
+router.put('/users', UserController.update);
+
+export default router;
