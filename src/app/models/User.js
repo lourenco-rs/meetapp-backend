@@ -11,15 +11,16 @@ class User extends Model {
         password_hash: Sequelize.STRING,
       },
       {
+        hooks: {
+          beforeSave: async user => {
+            if (user.password) {
+              user.password_hash = await bcrypt.hash(user.password, 8);
+            }
+          },
+        },
         sequelize,
       }
     );
-
-    this.addHook('beforeSave', async user => {
-      if (user.password) {
-        user.password_hash = await bcrypt.hash(user.password, 8);
-      }
-    });
 
     return this;
   }
