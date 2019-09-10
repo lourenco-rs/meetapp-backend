@@ -5,6 +5,7 @@ import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import FileController from './app/controllers/FileController';
 import MeetupController from './app/controllers/MeetupController';
+import SubscriptionController from './app/controllers/SubscriptionController';
 
 import multerConfig from './config/multer';
 import requireAuth from './app/middlewares/auth';
@@ -29,5 +30,7 @@ router.post('/meetups', MeetupController.create);
 router.get('/meetups', MeetupController.findAll);
 router.put('/meetups/:id', MeetupController.update);
 router.delete('/meetups/:id', MeetupController.delete);
+
+router.post('/subscriptions', SubscriptionController.create);
 
 export default router;
