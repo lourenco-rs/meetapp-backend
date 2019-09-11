@@ -1,6 +1,7 @@
+import 'dotenv/config';
+
 import express from 'express';
 import path from 'path';
-import 'dotenv/config';
 
 import routes from './routes';
 import './database/loader';

@@ -1,6 +1,10 @@
 import * as yup from 'yup';
+
 import Subscription from '../models/Subscription';
 import Meetup from '../models/Meetup';
+import User from '../models/User';
+import Queue from '../../lib/Queue';
+import SubscriptionMail from '../jobs/SubscriptionMail';
 
 class SubscriptionController {
   async create(req, res) {
@@ -16,7 +20,14 @@ class SubscriptionController {
 
     const { meetup_id: meetupId } = req.body;
 
-    const meetup = await Meetup.findByPk(meetupId);
+    const meetup = await Meetup.findByPk(meetupId, {
+      include: [
+        {
+          model: User,
+          attributes: ['name', 'email'],
+        },
+      ],
+    });
 
     if (!meetup) {
       return res.status(400).json({
@@ -36,11 +47,11 @@ class SubscriptionController {
       });
     }
 
-    const alreadyExists = await Subscription.findOne({
+    const alreadySubscribed = await Subscription.findOne({
       where: { meetup_id: meetupId, user_id: req.userId },
     });
 
-    if (alreadyExists) {
+    if (alreadySubscribed) {
       return res.status(400).json({
         error: 'You are already subscribed to this meetup',
       });
@@ -69,6 +80,15 @@ class SubscriptionController {
     const subscription = await Subscription.create({
       ...req.body,
       user_id: req.userId,
+    });
+
+    const user = await User.findByPk(req.userId, {
+      attributes: ['name', 'email'],
+    });
+
+    Queue.add(SubscriptionMail.key, {
+      meetup,
+      user,
     });
 
     return res.json(subscription);
