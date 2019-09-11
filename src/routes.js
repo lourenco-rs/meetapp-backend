@@ -26,10 +26,12 @@ router.put('/users', UserController.update);
 
 router.post('/files', upload.single('file'), FileController.create);
 
-router.post('/meetups', MeetupController.create);
-router.get('/meetups', MeetupController.findAll);
-router.put('/meetups/:id', MeetupController.update);
-router.delete('/meetups/:id', MeetupController.delete);
+router
+  .post('/meetups', MeetupController.create)
+  .put('/meetups/:id', MeetupController.update)
+  .delete('/meetups/:id', MeetupController.delete)
+  .get('/meetups', MeetupController.findAll)
+  .get('/meetups/organizer', MeetupController.findByOrganizer);
 
 router.post('/subscriptions', SubscriptionController.create);
 
