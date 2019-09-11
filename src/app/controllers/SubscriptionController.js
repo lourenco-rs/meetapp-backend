@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import { Op } from 'sequelize';
 
 import Subscription from '../models/Subscription';
 import Meetup from '../models/Meetup';
@@ -92,6 +93,27 @@ class SubscriptionController {
     });
 
     return res.json(subscription);
+  }
+
+  async findAll(req, res) {
+    const meetups = await Subscription.findAll({
+      where: {
+        user_id: req.userId,
+      },
+      include: [
+        {
+          model: Meetup,
+          where: {
+            date: {
+              [Op.gt]: new Date(),
+            },
+          },
+        },
+      ],
+      order: [[Meetup, 'date', 'ASC']],
+    });
+
+    return res.json(meetups);
   }
 }
 

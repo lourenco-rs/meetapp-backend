@@ -33,6 +33,8 @@ router
   .get('/meetups', MeetupController.findAll)
   .get('/meetups/organizer', MeetupController.findByOrganizer);
 
-router.post('/subscriptions', SubscriptionController.create);
+router
+  .post('/subscriptions', SubscriptionController.create)
+  .get('/subscriptions', SubscriptionController.findAll);
 
 export default router;
