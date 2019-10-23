@@ -1,4 +1,3 @@
-import * as yup from 'yup';
 import { Op } from 'sequelize';
 
 import Subscription from '../models/Subscription';
@@ -9,17 +8,9 @@ import SubscriptionMail from '../jobs/SubscriptionMail';
 
 class SubscriptionController {
   async create(req, res) {
-    const schema = yup.object({
-      meetup_id: yup.number().required(),
-    });
+    const { meetupId } = req.params;
 
-    try {
-      await schema.validate(req.body, { abortEarly: false });
-    } catch (error) {
-      return res.status(400).json({ errors: error.errors });
-    }
-
-    const { meetup_id: meetupId } = req.body;
+    console.log('meetupId', meetupId);
 
     const meetup = await Meetup.findByPk(meetupId, {
       include: [
@@ -79,7 +70,7 @@ class SubscriptionController {
     }
 
     const subscription = await Subscription.create({
-      ...req.body,
+      meetup_id: meetupId,
       user_id: req.userId,
     });
 

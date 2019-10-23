@@ -32,11 +32,10 @@ router
   .put('/meetups/:id', MeetupController.update)
   .delete('/meetups/:id', MeetupController.delete)
   .get('/meetups', MeetupController.findAll)
-  // .get('/meetups/organizer', MeetupController.findByOrganizer)
   .get('/available', AvailableController.findAll);
 
 router
-  .post('/subscriptions', SubscriptionController.create)
+  .post('/subscriptions/:meetupId', SubscriptionController.create)
   .get('/subscriptions', SubscriptionController.findAll);
 
 export default router;
