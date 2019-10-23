@@ -5,6 +5,7 @@ import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import FileController from './app/controllers/FileController';
 import MeetupController from './app/controllers/MeetupController';
+import AvailableController from './app/controllers/AvailableController';
 import SubscriptionController from './app/controllers/SubscriptionController';
 
 import multerConfig from './config/multer';
@@ -31,7 +32,8 @@ router
   .put('/meetups/:id', MeetupController.update)
   .delete('/meetups/:id', MeetupController.delete)
   .get('/meetups', MeetupController.findAll)
-  .get('/meetups/organizer', MeetupController.findByOrganizer);
+  // .get('/meetups/organizer', MeetupController.findByOrganizer)
+  .get('/available', AvailableController.findAll);
 
 router
   .post('/subscriptions', SubscriptionController.create)
