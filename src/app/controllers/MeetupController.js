@@ -1,8 +1,7 @@
-import { isBefore, parseISO, startOfDay, endOfDay } from 'date-fns';
-import { Op } from 'sequelize';
+import { isBefore, parseISO } from 'date-fns';
 import * as yup from 'yup';
-import User from '../models/User';
 
+import File from '../models/File';
 import Meetup from '../models/Meetup';
 
 class MeetupController {
@@ -80,6 +79,14 @@ class MeetupController {
   async findAll(req, res) {
     const meetups = await Meetup.findAll({
       where: { user_id: req.userId },
+      attributes: ['id', 'title', 'description', 'location', 'date'],
+      include: [
+        {
+          model: File,
+          as: 'banner',
+          attributes: ['id', 'url', 'filename'],
+        },
+      ],
       order: [['date', 'ASC']],
     });
 

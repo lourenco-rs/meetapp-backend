@@ -3,6 +3,7 @@ import { Op } from 'sequelize';
 import User from '../models/User';
 
 import Meetup from '../models/Meetup';
+import File from '../models/File';
 
 class AvailableController {
   async findAll(req, res) {
@@ -26,7 +27,13 @@ class AvailableController {
       include: [
         {
           model: User,
+          as: 'organizer',
           attributes: ['name', 'email'],
+        },
+        {
+          model: File,
+          as: 'banner',
+          attributes: ['url', 'filename'],
         },
       ],
     });

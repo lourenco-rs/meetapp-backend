@@ -3,14 +3,14 @@ import { Op } from 'sequelize';
 import Subscription from '../models/Subscription';
 import Meetup from '../models/Meetup';
 import User from '../models/User';
+import File from '../models/File';
+
 import Queue from '../../lib/Queue';
 import SubscriptionMail from '../jobs/SubscriptionMail';
 
 class SubscriptionController {
   async create(req, res) {
     const { meetupId } = req.params;
-
-    console.log('meetupId', meetupId);
 
     const meetup = await Meetup.findByPk(meetupId, {
       include: [
@@ -91,14 +91,28 @@ class SubscriptionController {
       where: {
         user_id: req.userId,
       },
+      attributes: ['id'],
       include: [
         {
           model: Meetup,
+          attributes: ['id', 'title', 'description', 'location', 'date'],
           where: {
             date: {
               [Op.gt]: new Date(),
             },
           },
+          include: [
+            {
+              model: User,
+              as: 'organizer',
+              attributes: ['name'],
+            },
+            {
+              model: File,
+              as: 'banner',
+              attributes: ['url', 'filename'],
+            },
+          ],
         },
       ],
       order: [[Meetup, 'date', 'ASC']],
