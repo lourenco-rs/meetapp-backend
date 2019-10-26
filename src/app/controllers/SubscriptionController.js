@@ -16,6 +16,7 @@ class SubscriptionController {
       include: [
         {
           model: User,
+          as: 'organizer',
           attributes: ['name', 'email'],
         },
       ],
@@ -119,6 +120,34 @@ class SubscriptionController {
     });
 
     return res.json(meetups);
+  }
+
+  async delete(req, res) {
+    const subscription = await Subscription.findOne({
+      where: {
+        id: req.params.id,
+        user_id: req.userId,
+      },
+    });
+
+    if (!subscription) {
+      return res.status(403).json({
+        error:
+          'You are not subscribed to the meetup you are trying to unsubscribe',
+      });
+    }
+
+    const meetup = await Meetup.findByPk(subscription.meetup_id);
+
+    if (meetup.past) {
+      return res.status(403).json({
+        error: 'Unable to unsubscribe from a Meetup that has already happened',
+      });
+    }
+
+    await subscription.destroy();
+
+    return res.send();
   }
 }
 

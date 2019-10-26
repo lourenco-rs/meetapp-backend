@@ -31,11 +31,13 @@ router
   .post('/meetups', MeetupController.create)
   .put('/meetups/:id', MeetupController.update)
   .delete('/meetups/:id', MeetupController.delete)
-  .get('/meetups', MeetupController.findAll)
-  .get('/available', AvailableController.findAll);
+  .get('/meetups', MeetupController.findAll);
+
+router.get('/available', AvailableController.findAll);
 
 router
+  .get('/subscriptions', SubscriptionController.findAll)
   .post('/subscriptions/:meetupId', SubscriptionController.create)
-  .get('/subscriptions', SubscriptionController.findAll);
+  .delete('/subscriptions/:id', SubscriptionController.delete);
 
 export default router;
