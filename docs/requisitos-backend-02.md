@@ -1,4 +1,4 @@
-# Desafio 03. Continuando aplicação
+# Back-end: Parte 02
 
 Durante esse desafio vamos aprimorar a aplicação Meetapp que demos início no desafio anterior implementando funcionalidades que aprendemos durante as aulas até agora.
 
@@ -51,11 +51,3 @@ Nessa listagem retorne também os dados do organizador.
 Crie uma rota para listar os meetups em que o usuário logado está inscrito.
 
 Liste apenas meetups que ainda não passaram e ordene meetups mais próximos como primeiros da lista.
-
-## Entrega
-
-Esse desafio **não precisa ser entregue** e não receberá correção, mas você pode ver o resultado do código do desafio aqui: https://github.com/Rocketseat/bootcamp-gostack-desafio-03
-
-Após concluir o desafio, adicionar esse código ao seu Github é uma boa forma de demonstrar seus conhecimentos para oportunidades futuras.
-
-“Faça seu melhor, mas sempre com prazo de entrega”!

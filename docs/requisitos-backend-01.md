@@ -1,6 +1,6 @@
-# Desafio 02. Iniciando aplicação
+# Back-end: Parte 01
 
-Crie uma aplicação do zero utilizando Express.
+Crie uma aplicação do zero utilizando Express ou Adonis.
 
 Nessa aplicação configure as seguintes ferramentas:
 
