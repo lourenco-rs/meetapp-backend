@@ -79,7 +79,7 @@ class MeetupController {
   async findAll(req, res) {
     const meetups = await Meetup.findAll({
       where: { user_id: req.userId },
-      attributes: ['id', 'title', 'description', 'location', 'date'],
+      attributes: ['id', 'title', 'description', 'location', 'date', 'past'],
       include: [
         {
           model: File,
