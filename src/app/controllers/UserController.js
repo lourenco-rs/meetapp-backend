@@ -63,7 +63,8 @@ class UserController {
       return res.status(400).json({ errors: error.errors });
     }
 
-    const { email, oldPassword } = req.body;
+    const { email } = req.body;
+    const { oldPassword } = req.body;
 
     const user = await User.findByPk(req.userId);
 
@@ -79,9 +80,12 @@ class UserController {
       return res.status(401).json({ error: 'Password not match' });
     }
 
-    const { name, email: newEmail } = await user.update(req.body);
+    const response = await user.update(req.body);
 
-    return res.json({ name, newEmail });
+    return res.json({
+      name: response.name,
+      email: response.email,
+    });
   }
 }
 
